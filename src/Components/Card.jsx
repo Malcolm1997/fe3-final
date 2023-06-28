@@ -1,7 +1,7 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useContext } from "react";
 import { Link } from "react-router-dom";
 import doctorIMG from '../assets/doctor.jpg'
-import './Card.css'
+import { ContextGlobal } from './utils/global.context'
 
 const reducer = (state, action) => {
   
@@ -18,6 +18,7 @@ const reducer = (state, action) => {
 
 const Card = ({ name, username, id }) => {
 
+  const {tema} = useContext(ContextGlobal)
   const [state, dispatch] = useReducer(reducer, [])
 
   const addFav = () => {
@@ -29,7 +30,6 @@ const Card = ({ name, username, id }) => {
   }
 
   useEffect(() => {
-    console.log("Se actualizo el estado");
     const favJSON = JSON.parse(localStorage.getItem('fav')) || [];
     if(state[state.length - 1] !== undefined)
       favJSON.push(state[state.length - 1]);
@@ -39,14 +39,14 @@ const Card = ({ name, username, id }) => {
   return (
     <div className="card">
 
-      <Link to={`dentista/${id}`}>
+      <Link to={`../dentista/${id}`}>
         <div className="cardDoc">
           <img src={doctorIMG} alt="" />
           <h3>{name}</h3>
           <p>{username}</p>
         </div>
       </Link>
-      <button onClick={addFav} className="favButton">Add fav</button>
+      <button onClick={addFav} className={tema === "oscuro" ? "favButtonDark" : "favButton"}>Add fav</button>
     </div>
   );
 };

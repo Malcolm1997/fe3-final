@@ -1,19 +1,23 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import LayoutMain from '../Components/LayoutMain'
 import { useParams } from 'react-router-dom'
-
-//Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
+import { ContextGlobal } from '../Components/utils/global.context'
 
 const Detail = () => {
 
-  // Consumiendo el parametro dinamico de la URL deberan hacer un fetch a un user en especifico
   const params = useParams()
+  const {dataApiMemo} = useContext(ContextGlobal);
+  const dentistaMostrar = dataApiMemo.filter(dentista => dentista.id === parseInt(params.id))
 
   return (
     <LayoutMain>
-      <h1>Detail Dentist {params.id} </h1>
-      {/* aqui deberan renderizar la informacion en detalle de un user en especifico */}
-      {/* Deberan mostrar el name - email - phone - website por cada user en especifico */}
+      <div className='cardDentist'>
+        <h1>Detail Dentist</h1>
+        <h4>{dentistaMostrar[0].name}</h4>
+        <p>{dentistaMostrar[0].email}</p>
+        <p>{dentistaMostrar[0].phone}</p>
+        <p>{dentistaMostrar[0].website}</p>
+      </div>
     </LayoutMain>
   )
 }

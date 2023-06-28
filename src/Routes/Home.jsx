@@ -15,7 +15,7 @@ const Home = () => {
 
 
   return (
-    <LayoutMain>
+    <LayoutMain >
       <h1>Home</h1>
       <div className='card-grid'>
 
