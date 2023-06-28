@@ -6,16 +6,12 @@ const Form = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [err, setErr] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     validateName();
-    console.log(err)
-    console.log(name)
-    if (!err){
-      setName("");
-      setEmail("");
-    }
+    validateEmail();
   }
 
   const handleName = (e) => {
@@ -24,10 +20,12 @@ const Form = () => {
   }
 
   const validateName = () =>{
-    if (name.length <= 5){
+    if (name.length < 5){
       setErr(true);
-    }else{
+      setIsCorrect(false)
+    } else {
       setErr(false);
+      setIsCorrect(true)
     }
   }
 
@@ -35,6 +33,15 @@ const Form = () => {
     setEmail(e.target.value);
   }
 
+  const validateEmail = () =>{
+    if (email.includes("@")){
+      setErr(false);
+      setIsCorrect(true)
+    } else {
+      setErr(true);
+      setIsCorrect(false)
+    }
+  }
 
   return (
     <div>
@@ -44,6 +51,8 @@ const Form = () => {
         <label htmlFor="email">Email:</label>
         <input type="email" id="email" name="email" value={email} onChange={handleEmail} />
         <button type="submit" onClick={handleSubmit}>Enviar</button>
+        {err && <p>Por favor verifique su información nuevamente</p>}
+        {isCorrect && <p>Gracias {name}, te contactaremos cuando antes vía mail</p>}
       </form>
     </div>
   );
